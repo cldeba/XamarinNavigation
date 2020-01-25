@@ -6,6 +6,7 @@ namespace XamarinNavigation
 {
     /// <summary>
     /// Base interface for Navigation service, providing methods for registering, resolving and navigation of ViewModels.
+    /// </summary>
     public interface INavigationService
     {
         IActivator DefaultViewActivator { get; set; }
