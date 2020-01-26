@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Unity" Version="5.11.3" />
-    <PackageReference Include="XamarinNavigation" Version="1.0.0" />
+    <PackageReference Include="XamarinNavigation" Version="1.0.0.1" />
   </ItemGroup>
 
 </Project>
