@@ -19,7 +19,7 @@ namespace XamarinNavigation
         /// </summary>
         /// <typeparam name="TView"></typeparam>
         /// <typeparam name="TViewModel"></typeparam>
-        void RegisterViewModel<TView, TViewModel>()
+        INavigationService RegisterViewModel<TView, TViewModel>()
             where TView : VisualElement
             where TViewModel : ViewModelBase;
 
@@ -29,7 +29,7 @@ namespace XamarinNavigation
         /// <typeparam name="TView"></typeparam>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="createViewDelegate"></param>
-        void RegisterViewModel<TView, TViewModel>(
+        INavigationService RegisterViewModel<TView, TViewModel>(
                 Func<TView> createViewDelegate)
             where TView : VisualElement
             where TViewModel : ViewModelBase;
@@ -40,7 +40,7 @@ namespace XamarinNavigation
         /// <typeparam name="TView"></typeparam>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="createViewModelDelegate"></param>
-        void RegisterViewModel<TView, TViewModel>(
+        INavigationService RegisterViewModel<TView, TViewModel>(
                 Func<TViewModel> createViewModelDelegate)
             where TView : VisualElement
             where TViewModel : ViewModelBase;
@@ -52,7 +52,7 @@ namespace XamarinNavigation
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="createViewDelegate"></param>
         /// <param name="createViewModelDelegate"></param>
-        void RegisterViewModel<TView, TViewModel>(
+        INavigationService RegisterViewModel<TView, TViewModel>(
             Func<TView> createViewDelegate,
             Func<TViewModel> createViewModelDelegate)
             where TView : VisualElement
@@ -60,8 +60,8 @@ namespace XamarinNavigation
 
         #endregion
 
-        View ResolveView<TViewModel>();
-        Page ResolvePage<TViewModel>();
-        Task Navigate<TViewModel>();
+        View ResolveView<TViewModel>() where TViewModel : ViewModelBase;
+        Page ResolvePage<TViewModel>() where TViewModel : ViewModelBase;
+        Task Navigate<TViewModel>() where TViewModel : ViewModelBase;
     }
 }
