@@ -60,8 +60,15 @@ namespace XamarinNavigation
 
         #endregion
 
+        /// <summary>
+        /// Sets the main view model. The view model type has to be already registered beforehand.
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        INavigationService SetMainViewModel<TViewModel>()
+            where TViewModel : ViewModelBase;
+
         View ResolveView<TViewModel>() where TViewModel : ViewModelBase;
         Page ResolvePage<TViewModel>() where TViewModel : ViewModelBase;
-        Task Navigate<TViewModel>() where TViewModel : ViewModelBase;
+        Task Navigate<TViewModel>(TViewModel viewModel = null) where TViewModel : ViewModelBase;
     }
 }

@@ -14,5 +14,6 @@ namespace XamarinNavigation
         public Type ViewModelType { get; }
         public Func<VisualElement> ViewCreator { get; }
         public Func<ViewModelBase> ViewModelCreator { get; }
+        public bool IsMainViewModel { get; set; }
     }
 }
