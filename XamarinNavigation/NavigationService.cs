@@ -21,16 +21,25 @@ namespace XamarinNavigation
 
         public IActivator DefaultViewActivator { get; set; }
         public IActivator DefaultViewModelActivator { get; set; }
+        public NavigationType DefaultNavigationType { get; set; } = NavigationType.Default;
 
         #region Navigate
 
-        public async Task Navigate<TViewModel>(TViewModel viewModel = null) where TViewModel : ViewModelBase
+        public async Task Navigate<TViewModel>(TViewModel viewModel = null, NavigationType navigationType = null) where TViewModel : ViewModelBase
         {
-            Page page = ResolveInternal<Page, TViewModel>(viewModel);
+            ViewToViewModelFactory viewToViewModelFactory = GetViewToViewModelFactory<TViewModel, Page>();
+
+            Page page = ResolveInternal<Page, TViewModel>(viewToViewModelFactory, viewModel);
+
+            if (navigationType == null)
+                navigationType = viewToViewModelFactory.DefaultNavigationType ?? DefaultNavigationType;
 
             if (Application.Current.MainPage is NavigationPage navigationPage)
             {
-                await navigationPage.PushAsync(page);
+                if (navigationType == null)
+                    await navigationPage.PushAsync(page);
+                else
+                    await navigationType.Navigate(navigationPage.Navigation, page);
             }
             else
             {
@@ -42,52 +51,18 @@ namespace XamarinNavigation
 
         #region RegisterViewModel
 
-        public INavigationService RegisterViewModel<TView, TViewModel>()
+        public INavigationService RegisterViewModel<TView, TViewModel>(Func<TView> createViewDelegate = null, Func<TViewModel> createViewModelDelegate = null, NavigationType defaultNavigationType = null)
             where TView : VisualElement
             where TViewModel : ViewModelBase
         {
-            factories.Add(new ViewToViewModelFactory(
-                typeof(TView),
-                typeof(TViewModel),
-                () => DefaultViewActivator.GetInstance<TView>(),
-                () => DefaultViewModelActivator.GetInstance<TViewModel>()));
-            return this;
-        }
-
-        public INavigationService RegisterViewModel<TView, TViewModel>(Func<TView> createViewDelegate)
-            where TView : VisualElement
-            where TViewModel : ViewModelBase
-        {
-            factories.Add(new ViewToViewModelFactory(
-                typeof(TView),
-                typeof(TViewModel),
-                createViewDelegate,
-                () => DefaultViewModelActivator.GetInstance<TViewModel>()));
-            return this;
-        }
-
-        public INavigationService RegisterViewModel<TView, TViewModel>(Func<TViewModel> createViewModelDelegate)
-            where TView : VisualElement
-            where TViewModel : ViewModelBase
-        {
-            factories.Add(new ViewToViewModelFactory(
-                typeof(TView),
-                typeof(TViewModel),
-                () => DefaultViewModelActivator.GetInstance<TView>(),
-                createViewModelDelegate));
-            return this;
-        }
-
-
-        public INavigationService RegisterViewModel<TView, TViewModel>(Func<TView> createViewDelegate, Func<TViewModel> createViewModelDelegate)
-            where TView : VisualElement
-            where TViewModel : ViewModelBase
-        {
-            factories.Add(new ViewToViewModelFactory(
-                typeof(TView),
-                typeof(TViewModel),
-                createViewDelegate,
-                createViewModelDelegate));
+            factories.Add(
+                new ViewToViewModelFactory(
+                    viewType: typeof(TView),
+                    viewModelType: typeof(TViewModel),
+                    viewCreator: createViewDelegate ?? (() => DefaultViewActivator.GetInstance<TView>()),
+                    viewModelCreator: createViewModelDelegate ?? (() => DefaultViewModelActivator.GetInstance<TViewModel>()),
+                    defaultNavigationType: defaultNavigationType
+                ));
             return this;
         }
 
@@ -107,13 +82,11 @@ namespace XamarinNavigation
             return ResolveInternal<View, TViewModel>();
         }
 
-        private TViewBaseType ResolveInternal<TViewBaseType, TViewModel>(TViewModel viewModel = null)
+        private TViewBaseType ResolveInternal<TViewBaseType, TViewModel>(ViewToViewModelFactory viewToViewModelFactory = null, TViewModel viewModel = null)
             where TViewBaseType : VisualElement
             where TViewModel : ViewModelBase
         {
-            ViewToViewModelFactory result = factories.FirstOrDefault(
-                factory => factory.ViewModelType == typeof(TViewModel) &&
-                typeof(TViewBaseType).IsAssignableFrom(factory.ViewType));
+            ViewToViewModelFactory result = viewToViewModelFactory ?? GetViewToViewModelFactory<TViewModel, TViewBaseType>();
 
             if (result == null)
             {
@@ -151,5 +124,12 @@ namespace XamarinNavigation
             factory.IsMainViewModel = true;
             return this;
         }
+
+        private ViewToViewModelFactory GetViewToViewModelFactory<TViewModel, TViewBaseType>()
+            where TViewBaseType : VisualElement
+            where TViewModel : ViewModelBase
+            => factories.FirstOrDefault(
+                factory => factory.ViewModelType == typeof(TViewModel) &&
+                typeof(TViewBaseType).IsAssignableFrom(factory.ViewType));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace XamarinNavigation
 {
@@ -11,39 +12,9 @@ namespace XamarinNavigation
     {
         IActivator DefaultViewActivator { get; set; }
         IActivator DefaultViewModelActivator { get; set; }
+        NavigationType DefaultNavigationType { get; set; }
 
         #region RegisterViewModel
-
-        /// <summary>
-        /// Registers a View-to-ViewModel relation with default View resolving and default ViewModel resolving.
-        /// </summary>
-        /// <typeparam name="TView"></typeparam>
-        /// <typeparam name="TViewModel"></typeparam>
-        INavigationService RegisterViewModel<TView, TViewModel>()
-            where TView : VisualElement
-            where TViewModel : ViewModelBase;
-
-        /// <summary>
-        /// Registers a View-to-ViewModel relation with custom View resolving and default ViewModel resolving.
-        /// </summary>
-        /// <typeparam name="TView"></typeparam>
-        /// <typeparam name="TViewModel"></typeparam>
-        /// <param name="createViewDelegate"></param>
-        INavigationService RegisterViewModel<TView, TViewModel>(
-                Func<TView> createViewDelegate)
-            where TView : VisualElement
-            where TViewModel : ViewModelBase;
-
-        /// <summary>
-        /// Registers a View-to-ViewModel relation with default View resolving and custom ViewModel resolving.
-        /// </summary>
-        /// <typeparam name="TView"></typeparam>
-        /// <typeparam name="TViewModel"></typeparam>
-        /// <param name="createViewModelDelegate"></param>
-        INavigationService RegisterViewModel<TView, TViewModel>(
-                Func<TViewModel> createViewModelDelegate)
-            where TView : VisualElement
-            where TViewModel : ViewModelBase;
 
         /// <summary>
         /// Registers a View-to-ViewModel relation with custom View resolving and custom ViewModel resolving.
@@ -53,8 +24,9 @@ namespace XamarinNavigation
         /// <param name="createViewDelegate"></param>
         /// <param name="createViewModelDelegate"></param>
         INavigationService RegisterViewModel<TView, TViewModel>(
-            Func<TView> createViewDelegate,
-            Func<TViewModel> createViewModelDelegate)
+            Func<TView> createViewDelegate = null,
+            Func<TViewModel> createViewModelDelegate = null,
+            NavigationType defaultNavigationType = null)
             where TView : VisualElement
             where TViewModel : ViewModelBase;
 
@@ -69,6 +41,6 @@ namespace XamarinNavigation
 
         View ResolveView<TViewModel>() where TViewModel : ViewModelBase;
         Page ResolvePage<TViewModel>() where TViewModel : ViewModelBase;
-        Task Navigate<TViewModel>(TViewModel viewModel = null) where TViewModel : ViewModelBase;
+        Task Navigate<TViewModel>(TViewModel viewModel = null, NavigationType navigationType = null) where TViewModel : ViewModelBase;
     }
 }
