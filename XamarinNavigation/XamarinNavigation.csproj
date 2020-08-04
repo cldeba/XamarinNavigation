@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.7</Version>
+    <Version>1.0.0.9</Version>
     <RepositoryUrl>https://github.com/cldeba/XamarinNavigation</RepositoryUrl>
     <Author>cldeba</Author>
     <PackageId>XamarinNavigation</PackageId>
+    <Description>MVVM-based navigation service for Xamarin.Forms apps</Description>
   </PropertyGroup>
 
   <ItemGroup>

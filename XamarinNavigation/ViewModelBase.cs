@@ -13,5 +13,10 @@ namespace XamarinNavigation
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        protected internal virtual void OnNavigated()
+        {
+
+        }
     }
 }

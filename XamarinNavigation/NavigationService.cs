@@ -45,6 +45,8 @@ namespace XamarinNavigation
             {
                 Application.Current.MainPage = page is NavigationPage ? page : new NavigationPage(page);
             }
+
+            viewModel.OnNavigated();
         }
 
         #endregion
