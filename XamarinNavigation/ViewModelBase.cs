@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace XamarinNavigation
 {
@@ -14,9 +15,9 @@ namespace XamarinNavigation
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        protected internal virtual void OnNavigated()
+        protected internal virtual Task OnNavigated()
         {
-
+            return Task.CompletedTask;
         }
     }
 }

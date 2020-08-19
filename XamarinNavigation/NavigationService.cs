@@ -25,11 +25,18 @@ namespace XamarinNavigation
 
         #region Navigate
 
-        public async Task Navigate<TViewModel>(TViewModel viewModel = null, NavigationType navigationType = null) where TViewModel : ViewModelBase
+        public async Task Navigate<TViewModel>(TViewModel viewModel = null, Action<TViewModel> options = null, NavigationType navigationType = null) where TViewModel : ViewModelBase
         {
             ViewToViewModelFactory viewToViewModelFactory = GetViewToViewModelFactory<TViewModel, Page>();
 
-            Page page = ResolveInternal<Page, TViewModel>(viewToViewModelFactory, viewModel);
+            Page page = ResolveInternal<Page, TViewModel>(viewToViewModelFactory, viewModel, options);
+
+            if (viewModel == null)
+            {
+                viewModel = page.BindingContext as TViewModel;
+                if (viewModel != null)
+                    options?.Invoke(viewModel);
+            }
 
             if (navigationType == null)
                 navigationType = viewToViewModelFactory.DefaultNavigationType ?? DefaultNavigationType;
@@ -46,7 +53,7 @@ namespace XamarinNavigation
                 Application.Current.MainPage = page is NavigationPage ? page : new NavigationPage(page);
             }
 
-            viewModel.OnNavigated();
+            await viewModel.OnNavigated();
         }
 
         #endregion
@@ -84,7 +91,7 @@ namespace XamarinNavigation
             return ResolveInternal<View, TViewModel>();
         }
 
-        private TViewBaseType ResolveInternal<TViewBaseType, TViewModel>(ViewToViewModelFactory viewToViewModelFactory = null, TViewModel viewModel = null)
+        private TViewBaseType ResolveInternal<TViewBaseType, TViewModel>(ViewToViewModelFactory viewToViewModelFactory = null, TViewModel viewModel = null, Action<TViewModel> options = null)
             where TViewBaseType : VisualElement
             where TViewModel : ViewModelBase
         {
@@ -104,6 +111,7 @@ namespace XamarinNavigation
             {
                 if (viewModel == null)
                     viewModel = result.ViewModelCreator() as TViewModel;
+                options?.Invoke(viewModel);
                 viewModel.NavigationService = this;
                 view.BindingContext = viewModel;
                 return view;
@@ -123,8 +131,19 @@ namespace XamarinNavigation
 
             Page page = ResolvePage<TViewModel>();
             Application.Current.MainPage = page is NavigationPage ? page : new NavigationPage(page);
+            
             factory.IsMainViewModel = true;
+
+            page.Appearing += MainPage_Appearing;
+            // page.Appearing += (_, __) => page.Appearing -= MainPage_Appearing;
+
             return this;
+        }
+
+        private async void MainPage_Appearing(object sender, EventArgs e)
+        {
+            if (((Page)sender).BindingContext is ViewModelBase viewModelBase)
+                await viewModelBase.OnNavigated();
         }
 
         private ViewToViewModelFactory GetViewToViewModelFactory<TViewModel, TViewBaseType>()

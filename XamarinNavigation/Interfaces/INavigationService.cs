@@ -41,6 +41,6 @@ namespace XamarinNavigation
 
         View ResolveView<TViewModel>() where TViewModel : ViewModelBase;
         Page ResolvePage<TViewModel>() where TViewModel : ViewModelBase;
-        Task Navigate<TViewModel>(TViewModel viewModel = null, NavigationType navigationType = null) where TViewModel : ViewModelBase;
+        Task Navigate<TViewModel>(TViewModel viewModel = null, Action<TViewModel> options = null, NavigationType navigationType = null) where TViewModel : ViewModelBase;
     }
 }

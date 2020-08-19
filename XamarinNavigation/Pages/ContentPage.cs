@@ -13,5 +13,7 @@ namespace XamarinNavigation.Pages
             get => BindingContext as TViewModel;
             set => BindingContext = value;
         }
+
+        protected INavigationService NavigationService => ViewModel?.NavigationService;
     }
 }
