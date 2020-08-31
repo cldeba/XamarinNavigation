@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XamarinNavigation.Extensions;
 
 namespace XamarinNavigation
 {
@@ -50,7 +51,7 @@ namespace XamarinNavigation
             }
             else
             {
-                Application.Current.MainPage = page is NavigationPage ? page : new NavigationPage(page);
+                Application.Current.MainPage = page.ToNavigationPage();
             }
 
             await viewModel.OnNavigated();
@@ -130,7 +131,7 @@ namespace XamarinNavigation
                 throw new InvalidOperationException($"{typeof(TViewModel)} is not registered.");
 
             Page page = ResolvePage<TViewModel>();
-            Application.Current.MainPage = page is NavigationPage ? page : new NavigationPage(page);
+            Application.Current.MainPage = page.ToNavigationPage();
             
             factory.IsMainViewModel = true;
 
