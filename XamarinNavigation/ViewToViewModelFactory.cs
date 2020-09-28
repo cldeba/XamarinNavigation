@@ -7,14 +7,14 @@ namespace XamarinNavigation
 {
     internal class ViewToViewModelFactory
     {
-        public ViewToViewModelFactory(Type viewType, Type viewModelType, Func<VisualElement> viewCreator, Func<ViewModelBase> viewModelCreator, NavigationMode defaultNavigationType)
-        => (ViewType, ViewModelType, ViewCreator, ViewModelCreator, DefaultNavigationType) = (viewType, viewModelType, viewCreator, viewModelCreator, defaultNavigationType);
+        public ViewToViewModelFactory(Type viewType, Type viewModelType, Func<VisualElement> viewCreator, Func<ViewModelBase> viewModelCreator, NavigationMode defaultNavigationMode)
+        => (ViewType, ViewModelType, ViewCreator, ViewModelCreator, DefaultNavigationMode) = (viewType, viewModelType, viewCreator, viewModelCreator, defaultNavigationMode);
 
         public Type ViewType { get; }
         public Type ViewModelType { get; }
         public Func<VisualElement> ViewCreator { get; }
         public Func<ViewModelBase> ViewModelCreator { get; }
         public bool IsMainViewModel { get; set; }
-        public NavigationMode DefaultNavigationType { get; set; }
+        public NavigationMode DefaultNavigationMode { get; set; }
     }
 }

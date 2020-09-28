@@ -44,7 +44,7 @@ namespace XamarinNavigation
         /// <summary>
         /// Gets or sets the <see cref="NavigationMode"/> which is used for executing the navigation process if no other <see cref="NavigationMode"/> was specified on the ViewModel registration.
         /// </summary>
-        public NavigationMode DefaultNavigationType { get; set; } = NavigationMode.Default;
+        public NavigationMode DefaultNavigationMode { get; set; } = NavigationMode.Default;
 
         #region Navigate
 
@@ -70,7 +70,7 @@ namespace XamarinNavigation
             }
 
             if (navigationMode == null)
-                navigationMode = viewToViewModelFactory.DefaultNavigationType ?? DefaultNavigationType;
+                navigationMode = viewToViewModelFactory.DefaultNavigationMode ?? DefaultNavigationMode;
 
             if (Application.Current.MainPage is NavigationPage navigationPage)
             {
@@ -98,9 +98,9 @@ namespace XamarinNavigation
         /// <typeparam name="TViewModel">The ViewModel type.</typeparam>
         /// <param name="createViewDelegate">The delegate that should be used for view activation. If this parameter is set, the <see cref="DefaultViewActivator"/> property is ignored.</param>
         /// <param name="createViewModelDelegate">The delegate that should be used for ViewModel activation. If this parameter is set, the <see cref="DefaultViewModelActivator"/> property is ignored.</param>
-        /// <param name="defaultNavigationType">The <see cref="NavigationMode"/> that should be used when navigating to the specified ViewModel type.</param>
+        /// <param name="defaultNavigationMode">The <see cref="NavigationMode"/> that should be used when navigating to the specified ViewModel type.</param>
         /// <returns></returns>
-        public INavigationService RegisterViewModel<TView, TViewModel>(Func<TView> createViewDelegate = null, Func<TViewModel> createViewModelDelegate = null, NavigationMode defaultNavigationType = null)
+        public INavigationService RegisterViewModel<TView, TViewModel>(Func<TView> createViewDelegate = null, Func<TViewModel> createViewModelDelegate = null, NavigationMode defaultNavigationMode = null)
             where TView : VisualElement
             where TViewModel : ViewModelBase
         {
@@ -110,7 +110,7 @@ namespace XamarinNavigation
                     viewModelType: typeof(TViewModel),
                     viewCreator: createViewDelegate ?? (() => DefaultViewActivator.GetInstance<TView>()),
                     viewModelCreator: createViewModelDelegate ?? (() => DefaultViewModelActivator.GetInstance<TViewModel>()),
-                    defaultNavigationType: defaultNavigationType
+                    defaultNavigationMode: defaultNavigationMode
                 ));
             return this;
         }

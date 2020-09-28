@@ -9,7 +9,7 @@ namespace XamarinNavigation.Playground.ViewModels
     {
         public void NavigateToPage3()
         {
-            NavigationService.Navigate<Page3ViewModel>(navigationType: new ClearNavigationMode());
+            NavigationService.Navigate<Page3ViewModel>(navigationMode: new ClearNavigationMode());
         }
     }
 }
