@@ -4,6 +4,9 @@ using System.Text;
 
 namespace XamarinNavigation
 {
+    /// <summary>
+    /// Provides the default <see cref="IActivator"/> implementation.
+    /// </summary>
     public static class Activator
     {
         static Activator()

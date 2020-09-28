@@ -6,6 +6,10 @@ using Xamarin.Forms;
 
 namespace XamarinNavigation
 {
+    /// <summary>
+    /// Represents a <see cref="ICommand"/> implementation that can be used to navigate to the specified ViewModel type.
+    /// </summary>
+    /// <typeparam name="TViewModel"></typeparam>
     public class NavigateCommand<TViewModel> : ICommand
         where TViewModel : ViewModelBase
     {
