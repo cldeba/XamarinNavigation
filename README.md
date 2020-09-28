@@ -127,7 +127,7 @@ public class DefaultActivator : IActivator
 
 Per default, activation is handled via reflection.
 
-If you prefere to use a **Unity container** you can use the XamarinNavigation.Unity package:
+If you prefer to use a **Unity container** you can use the XamarinNavigation.Unity package in order to let Unity handle activation and dependency injection:
 
 ```
 using XamarinNavigation;
