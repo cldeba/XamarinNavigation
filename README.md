@@ -14,91 +14,13 @@ using XamarinNavigation;
 public class YourViewModel : ViewModelBase
 {
     // Properties, ViewModel logic
-	
-	protected override async Task OnNavigated()
-    {
-	   
-	}
-}
-```
-
-#### Pages
-
-You can use the normal Page base classes provided by Xamarin.Forms like `ContentPage`, `MasterDetailPage` etc.
-If in your scenario it might be important to access the ViewModel functionality from your page code-behind, you can use the generic `...Page<TViewModel>` classes provided by XamarinNavigation for convenience purposes:
- * `ContentPage<TViewModel>`
- * `MasterDetailPage<TViewModel>`
- * `CarouselPage<TViewModel>`
- * `TabbedPage<TViewModel>`
- 
-They expose the ViewModel instance through their protected `ViewModel` property.
-
-Use the pages like this:
-
-```
-<pages:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                   xmlns:pages="clr-namespace:XamarinNavigation.Pages"
-                   xmlns:viewModels="clr-namespace:YourApp.ViewModels"
-                   x:Class="MobileReadingTest.Pages.MenuPage"
-                   x:TypeArguments="viewModels:YourViewModel">
-                   
-    <!-- ... -->
     
-</pages:ContentPage>
-```
-
-And in your code-behind:
-
-```
-using XamarinNavigation.Pages;
-
-public class YourPage : ContentPage<YourViewModel>
-{
-    void SomeMethod()
+    protected override async Task OnNavigated()
     {
-        ViewModel.YourViewModelMethod();
+    
     }
 }
 ```
-
-#### ViewModel and View activation
-
-For the creation of View and ViewModel instances, the `NavigationService` class provides the properties `DefaultViewActivator` and `DefaultViewModelActivator` which are both of type `IActivator`.
-
-Implement your custom activator if you want to change the default activation mode:
-
-```
-public class DefaultActivator : IActivator
-{
-    public T GetInstance<T>()
-    {
-        ...
-    }
-}
-```
-
-Per default, activation is handled via reflection.
-
-If you prefere to use a **Unity container** you can use the XamarinNavigation.Unity package:
-
-```
-using XamarinNavigation;
-using XamarinNavigation.Unity;
-
-// ...
-
-navigationService.UseUnityContainer(yourUnityContainer);
-
-```
-
-Alternatively, you can use different containers for View and ViewModel resolving:
-
-```
-navigationService.UseUnityContainerForViewResolving(yourUnityContainer);
-navigationService.UseUnityContainerForViewModelResolving(yourOtherUnityContainer);
-```
-
 
 ## Registering ViewModels
 
@@ -183,4 +105,83 @@ NavigationService.Navigate<YourViewModel>(navigationMode: new CustomNavigationMo
 CustomNavigationMode navigationMode = new CustomNavigationMode()
 navigationService.RegisterViewModel<TestPage, TestViewModel>(defaultNavigationMode: navigationMode)
 
+```
+
+## Other features that might be of interest
+
+#### ViewModel and View activation
+
+For the creation of View and ViewModel instances, the `NavigationService` class provides the properties `DefaultViewActivator` and `DefaultViewModelActivator` which are both of type `IActivator`.
+
+Implement your custom activator if you want to change the default activation mode:
+
+```
+public class DefaultActivator : IActivator
+{
+    public T GetInstance<T>()
+    {
+        ...
+    }
+}
+```
+
+Per default, activation is handled via reflection.
+
+If you prefere to use a **Unity container** you can use the XamarinNavigation.Unity package:
+
+```
+using XamarinNavigation;
+using XamarinNavigation.Unity;
+
+// ...
+
+navigationService.UseUnityContainer(yourUnityContainer);
+
+```
+
+Alternatively, you can use different containers for View and ViewModel resolving:
+
+```
+navigationService.UseUnityContainerForViewResolving(yourUnityContainer);
+navigationService.UseUnityContainerForViewModelResolving(yourOtherUnityContainer);
+```
+
+#### Pages
+
+You can use the normal Page base classes provided by Xamarin.Forms like `ContentPage`, `MasterDetailPage` etc.
+If in your scenario it might be important to access the ViewModel functionality from your page code-behind, you can use the generic `...Page<TViewModel>` classes provided by XamarinNavigation for convenience purposes:
+ * `ContentPage<TViewModel>`
+ * `MasterDetailPage<TViewModel>`
+ * `CarouselPage<TViewModel>`
+ * `TabbedPage<TViewModel>`
+ 
+They expose the ViewModel instance through their protected `ViewModel` property.
+
+Use the pages like this:
+
+```
+<pages:ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:pages="clr-namespace:XamarinNavigation.Pages"
+                   xmlns:viewModels="clr-namespace:YourApp.ViewModels"
+                   x:Class="MobileReadingTest.Pages.MenuPage"
+                   x:TypeArguments="viewModels:YourViewModel">
+                   
+    <!-- ... -->
+    
+</pages:ContentPage>
+```
+
+And in your code-behind:
+
+```
+using XamarinNavigation.Pages;
+
+public class YourPage : ContentPage<YourViewModel>
+{
+    void SomeMethod()
+    {
+        ViewModel.YourViewModelMethod();
+    }
+}
 ```
