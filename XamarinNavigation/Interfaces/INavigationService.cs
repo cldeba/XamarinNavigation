@@ -12,7 +12,7 @@ namespace XamarinNavigation
     {
         IActivator DefaultViewActivator { get; set; }
         IActivator DefaultViewModelActivator { get; set; }
-        NavigationType DefaultNavigationType { get; set; }
+        NavigationMode DefaultNavigationType { get; set; }
 
         #region RegisterViewModel
 
@@ -26,7 +26,7 @@ namespace XamarinNavigation
         INavigationService RegisterViewModel<TView, TViewModel>(
             Func<TView> createViewDelegate = null,
             Func<TViewModel> createViewModelDelegate = null,
-            NavigationType defaultNavigationType = null)
+            NavigationMode defaultNavigationType = null)
             where TView : VisualElement
             where TViewModel : ViewModelBase;
 
@@ -41,6 +41,6 @@ namespace XamarinNavigation
 
         View ResolveView<TViewModel>() where TViewModel : ViewModelBase;
         Page ResolvePage<TViewModel>() where TViewModel : ViewModelBase;
-        Task Navigate<TViewModel>(TViewModel viewModel = null, Action<TViewModel> options = null, NavigationType navigationType = null) where TViewModel : ViewModelBase;
+        Task Navigate<TViewModel>(TViewModel viewModel = null, Action<TViewModel> options = null, NavigationMode navigationType = null) where TViewModel : ViewModelBase;
     }
 }

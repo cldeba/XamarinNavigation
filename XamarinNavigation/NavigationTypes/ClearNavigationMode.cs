@@ -11,7 +11,7 @@ namespace XamarinNavigation.NavigationTypes
     /// <summary>
     /// The navigation stack is cleared before the navigated page is pushed.
     /// </summary>
-    public class ClearNavigationType : NavigationType
+    public class ClearNavigationMode : NavigationMode
     {
         protected internal override async Task Navigate(INavigation navigation, Page page)
         {

@@ -9,7 +9,7 @@ namespace XamarinNavigation.NavigationTypes
     /// <summary>
     /// The navigated page is pushed onto the navigation stack.
     /// </summary>
-    public class PushNavigationType : NavigationType
+    public class PushNavigationMode : NavigationMode
     {
         protected internal override async Task Navigate(INavigation navigation, Page page)
         {
