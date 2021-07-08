@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - master
+  
+  paths:
+    exclude:
+      - readme.md
+      - ci-xamarinnavigation.yml
+      - cd-xamarinnavigation.yml
+
+# a pull request on release should also trigger this build
+pr:
+  - master
+
+pool:
+  vmImage: 'windows-latest'
+  demands: msbuild
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.9.3'
+  inputs:
+    versionSpec: 4.9.3
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: '*.sln'
+
+- task: MSBuild@1
+  displayName: 'Build solution'
+  inputs:
+    solution: XamarinNavigation/XamarinNavigation.csproj
+    msbuildArguments: '/t:restore;build /p:PackageOutputPath=$(build.artifactstagingdirectory)'
+    clean: true

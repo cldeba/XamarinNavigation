@@ -7,6 +7,11 @@
     <Authors>cldeba</Authors>
     <PackageId>XamarinNavigation</PackageId>
     <Description>MVVM-based navigation service for Xamarin.Forms apps</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/cldeba/XamarinNavigation</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AssemblyVersion>1.0.0.13</AssemblyVersion>
+    <FileVersion>1.0.0.13</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
