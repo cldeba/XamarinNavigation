@@ -7,6 +7,9 @@
 	<PackageId>XamarinNavigation.Unity</PackageId>
 	<Version>1.0.0</Version>
 	<Description>Unity container support for XamarinNavigation</Description>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/cldeba/XamarinNavigation</PackageProjectUrl>
 	
   </PropertyGroup>
 
