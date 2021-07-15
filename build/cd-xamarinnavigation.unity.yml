@@ -36,19 +36,19 @@ stages:
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
       inputs:
-        restoreSolution: '*.sln'
+        restoreSolution: '**/*.sln'
 
     - task: MSBuild@1
       displayName: 'Build beta'
       inputs:
-        solution: XamarinNavigation.Unity/XamarinNavigation.Unity.csproj
+        solution: '/src/XamarinNavigation.Unity/XamarinNavigation.Unity.csproj'
         msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber)-beta /p:PackageOutputPath=$(build.artifactstagingdirectory)/beta /p:AssemblyFileVersion=$(Build.BuildNumber)  '
         clean: true
 
     - task: MSBuild@1
       displayName: 'Build final'
       inputs:
-        solution: XamarinNavigation.Unity/XamarinNavigation.Unity.csproj
+        solution: '/src/XamarinNavigation.Unity/XamarinNavigation.Unity.csproj'
         msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber) /p:PackageOutputPath=$(build.artifactstagingdirectory)/final /p:AssemblyFileVersion=$(Build.BuildNumber) '
         clean: true
 

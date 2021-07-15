@@ -8,6 +8,8 @@ trigger:
       - readme.md
       - ci-xamarinnavigation.yml
       - cd-xamarinnavigation.yml
+      - ci-xamarinnavigation.unity.yml
+      - cd-xamarinnavigation.unity.yml
 
 # a pull request on release should also trigger this build
 pr:
@@ -26,11 +28,11 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
   inputs:
-    restoreSolution: '*.sln'
+    restoreSolution: '**/*.sln'
 
 - task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    solution: XamarinNavigation/XamarinNavigation.csproj
+    solution: '/src/XamarinNavigation.Unity/XamarinNavigation.Unity.csproj'
     msbuildArguments: '/t:restore;build /p:PackageOutputPath=$(build.artifactstagingdirectory)'
     clean: true
