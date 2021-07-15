@@ -31,6 +31,6 @@ steps:
 - task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    solution: '/src/XamarinNavigation/XamarinNavigation.csproj'
+    solution: 'src/XamarinNavigation/XamarinNavigation.csproj'
     msbuildArguments: '/t:restore;build /p:PackageOutputPath=$(build.artifactstagingdirectory)'
     clean: true
