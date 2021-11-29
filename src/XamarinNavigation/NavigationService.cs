@@ -74,11 +74,11 @@ namespace XamarinNavigation
 
             if (Application.Current.MainPage is NavigationPage navigationPage)
             {
-                navigationPage.Appearing += Page_Appearing;
                 if (navigationMode == null)
                     await navigationPage.PushAsync(page);
                 else
                     await navigationMode.Navigate(navigationPage.Navigation, page);
+                navigationPage.Appearing += Page_Appearing;
             }
             else
             {
