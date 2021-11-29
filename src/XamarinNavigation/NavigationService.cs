@@ -78,13 +78,13 @@ namespace XamarinNavigation
                     await navigationPage.PushAsync(page);
                 else
                     await navigationMode.Navigate(navigationPage.Navigation, page);
-                navigationPage.Appearing += Page_Appearing;
             }
             else
             {
                 Application.Current.MainPage = page.ToNavigationPage();
-                await viewModel.OnNavigatedInternal();
             }
+
+            await viewModel.OnNavigatedInternal();
         }
 
         #endregion
@@ -184,12 +184,12 @@ namespace XamarinNavigation
             
             factory.IsMainViewModel = true;
 
-            page.Appearing += Page_Appearing;
+            page.Appearing += MainPage_Appearing;
 
             return this;
         }
 
-        private async void Page_Appearing(object sender, EventArgs e)
+        private async void MainPage_Appearing(object sender, EventArgs e)
         {
             if (((Page)sender).BindingContext is ViewModelBase viewModelBase)
                 await viewModelBase.OnNavigatedInternal();
