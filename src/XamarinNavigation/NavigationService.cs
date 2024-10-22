@@ -65,8 +65,6 @@ namespace XamarinNavigation
             if (viewModel == null)
             {
                 viewModel = page.BindingContext as TViewModel;
-                if (viewModel != null)
-                    options?.Invoke(viewModel);
             }
 
             if (navigationMode == null)
@@ -156,8 +154,8 @@ namespace XamarinNavigation
             {
                 if (viewModel == null)
                     viewModel = result.ViewModelCreator() as TViewModel;
-                options?.Invoke(viewModel);
                 viewModel.NavigationService = this;
+                options?.Invoke(viewModel);
                 view.BindingContext = viewModel;
                 return view;
             }
@@ -201,5 +199,23 @@ namespace XamarinNavigation
             => factories.FirstOrDefault(
                 factory => factory.ViewModelType == typeof(TViewModel) &&
                 typeof(TViewBaseType).IsAssignableFrom(factory.ViewType));
+
+        public TViewModel ResolveViewModel<TViewModel>(Action<TViewModel> options = null) where TViewModel : ViewModelBase
+        {
+            var viewModelFactory = factories.FirstOrDefault(x => x.ViewModelType == typeof(TViewModel));
+            var viewModel = viewModelFactory?.ViewModelCreator() as TViewModel;
+
+            if (viewModel == null)
+            {
+                viewModel = DefaultViewModelActivator.GetInstance<TViewModel>();
+            }
+
+            if (viewModel != null)
+            {
+                viewModel.NavigationService = this;
+                options?.Invoke(viewModel);
+            }
+            return viewModel;
+        }
     }
 }
